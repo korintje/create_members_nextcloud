@@ -3,11 +3,13 @@ import json
 import requests
 from getpass import getpass
 
-BASE_URL = "192.168.200.4/nextcloud/"
 USRS_URL = "ocs/v1.php/cloud/users"
 WDAV_URL = "remote.php/dav/files"
 SHARE_URL = "ocs/v2.php/apps/files_sharing/api/v1/shares"
 NEW_USERS_FNAME = "new_users.txt"
+with open("domain.txt", "r") as f:
+    BASE_URL = f.read().splitlines()[0]
+
 
 # ユーザー名とパスワードの入力を受け付ける
 ADMIN_ID = input('Admin ID: ')
