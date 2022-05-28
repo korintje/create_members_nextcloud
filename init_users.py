@@ -91,7 +91,7 @@ def share_homedir(user_id, password, dirname, shared_user_id, shareType):
 def get_share_url(user_id, password, share_id):
     res = requests.get(
             f"http://{user_id}:{password}@{BASE_URL}{SHARE_URL}/{share_id}",
-            params = {
+            params={
                 "format": "json",
             },
             headers={
@@ -105,7 +105,21 @@ def get_share_url(user_id, password, share_id):
     return url
 
 
-# ユーザーのプロフィールに共有URLを追加
+# ユーザーのプロフィールにメールアドレスと共有URLを追加
+def set_url_to_profile(user_id, password, mail, share_url):
+    res = requests.put(
+            f"http://{user_id}:{password}@{BASE_URL}{USRS_URL}/{user_id}",
+            params={
+                "format": "json",
+                "website": share_url,
+                "email": mail,
+            },
+            headers={
+                "OCS-APIRequest": "true",
+            },
+        )
+    print(res.status_code)
+    print(res.text)   
 
 
 if __name__ == "__main__":
@@ -128,4 +142,5 @@ if __name__ == "__main__":
         share_id = share_homedir(new_id, common_password, new_id, "member", 3) #shareType = 3: public link-sharing
         share_url = get_share_url(new_id, common_password, share_id)
         print(share_url)
+        set_url_to_profile(new_id, common_password, mail, share_url)
 
